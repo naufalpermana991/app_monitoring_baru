@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="latin1" collation="latin1_swedish_ci">kalibrasi</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="admin" view="colnames">
+<left>0</left>
+<top>0</top>
+<width>103</width>
+<height>163</height>
+<sql_create_table>CREATE TABLE `admin` (
+  `id_admin` int(25) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `bagian` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="atasan" view="colnames">
+<left>108</left>
+<top>0</top>
+<width>103</width>
+<height>163</height>
+<sql_create_table>CREATE TABLE `atasan` (
+  `id_atasan` int(25) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `bagian` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="barang" view="colnames">
+<left>8</left>
+<top>193</top>
+<width>130</width>
+<height>214</height>
+<sql_create_table>CREATE TABLE `barang` (
+  `id_barang` int(25) NOT NULL AUTO_INCREMENT,
+  `nomer_barang` varchar(50) NOT NULL,
+  `nama_barang` varchar(100) NOT NULL,
+  `merk` varchar(100) NOT NULL,
+  `tipe` varchar(100) NOT NULL,
+  `jumlah` int(25) NOT NULL,
+  `keterangan` varchar(100) NOT NULL,
+  `harga` int(25) NOT NULL,
+  PRIMARY KEY (`id_barang`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="kalibrasi" view="colnames">
+<left>161</left>
+<top>197</top>
+<width>177</width>
+<height>265</height>
+<sql_create_table>CREATE TABLE `kalibrasi` (
+  `id_kalibrasi` int(11) NOT NULL AUTO_INCREMENT,
+  `no_kalibrasi` char(100) NOT NULL,
+  `id_barang` int(20) NOT NULL,
+  `tanggal_kalibrasi` date NOT NULL,
+  `petugas_penerima` varchar(100) NOT NULL,
+  `petugas_menyerahkan` varchar(100) NOT NULL,
+  `tgl_exp` date NOT NULL,
+  `pihak_kalibrasi` varchar(100) NOT NULL,
+  `keterangan_kalibrasi` varchar(100) NOT NULL,
+  `keterangan_notifikasi` varchar(100) NOT NULL,
+  `foto` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_kalibrasi`),
+  KEY `id_barang` (`id_barang`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="kepala_divisi" view="colnames">
+<left>216</left>
+<top>3</top>
+<width>137</width>
+<height>146</height>
+<sql_create_table>CREATE TABLE `kepala_divisi` (
+  `id_kepala_divisi` int(25) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="koordinator" view="colnames">
+<left>375</left>
+<top>1</top>
+<width>129</width>
+<height>163</height>
+<sql_create_table>CREATE TABLE `koordinator` (
+  `id_koordinator` int(25) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `bagian` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="lap_kalibrasi" view="colnames">
+<left>374</left>
+<top>200</top>
+<width>229</width>
+<height>446</height>
+<sql_create_table>CREATE TABLE `lap_kalibrasi` (
+  `id_lap_kalirasi` int(11) NOT NULL,
+  `nama_barang` varchar(100) DEFAULT NULL,
+  `tag_number` varchar(30) DEFAULT NULL,
+  `spek_merk_type` varchar(50) DEFAULT NULL,
+  `spek_serial_number` varchar(200) DEFAULT NULL,
+  `spek_warna` varchar(30) DEFAULT NULL,
+  `spek_ukuran` varchar(30) DEFAULT NULL,
+  `kondisi_barang` varchar(50) DEFAULT NULL,
+  `status_barang` varchar(10) DEFAULT NULL,
+  `no_sertifikat_kalibrasiPerijinan` varchar(100) DEFAULT NULL,
+  `interval_kalibrasi` char(10) DEFAULT NULL,
+  `tgl_kalibrasi` varchar(20) DEFAULT NULL,
+  `tgl_berakhirnya_masa_kalibrasi` varchar(20) DEFAULT NULL,
+  `unit_kerja_pemilik` varchar(100) DEFAULT NULL,
+  `lembaga_kalibrasi` varchar(60) DEFAULT NULL,
+  `jns_kalibrasi_int` char(1) DEFAULT NULL,
+  `jns_kalibrasi_eks` char(1) DEFAULT NULL,
+  `range_kapasitas` varchar(25) DEFAULT NULL,
+  `faktor_koreksi` varchar(30) DEFAULT NULL,
+  `signifikan_ya` char(1) DEFAULT NULL,
+  `signifikan_tidak` char(1) DEFAULT NULL,
+  PRIMARY KEY (`id_lap_kalirasi`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="pesan" view="colnames">
+<left>523</left>
+<top>2</top>
+<width>161</width>
+<height>163</height>
+<sql_create_table>CREATE TABLE `pesan` (
+  `no_kalibrasi` int(11) NOT NULL,
+  `id_pesan` int(11) NOT NULL,
+  `pesan_koordinator` text NOT NULL,
+  `pesan_atasan` text NOT NULL,
+  `pesan_kepala_divisi` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
