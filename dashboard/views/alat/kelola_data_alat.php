@@ -179,19 +179,19 @@ if (isset($_GET['ubah'])) {
 
           <div class="card shadow">
             <div class="div card-body">
-              <form action="../../controller/proses_data_alat.php" method="POST" enctype="multipart/form-data">
+              <form method="POST" action="../../../dashboard/controller/proses_data_alat.php" enctype="multipart/form-data">
                 <input type="hidden" value="<?php echo $id_alat; ?>" name="id_alat">
                 <div class="row">
                   <div class="col">
                     <div class="form-group">
                       <label for="title">Nomor Alat</label>
-                      <input required type="text" name="nomer_alat" placeholder="Nomor Alat" value="<?php echo $nomer_alat;  ?>" class="form-control" />
+                      <input type="text" name="nomer_alat" placeholder="Nomor Alat" value="<?php echo $nomer_alat;  ?>" class="form-control" />
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
                       <label for="status">Spesifikasi</label>
-                      <input required type="text" name="spek_merk_type" placeholder="Spek, Merk, dan Type Alat" value="<?php echo $spek_merk_type;  ?>" class="form-control" />
+                      <input type="text" name="spek_merk_type" placeholder="Spek, Merk, dan Type Alat" value="<?php echo $spek_merk_type;  ?>" class="form-control" />
                     </div>
                   </div>
                 </div>
@@ -199,13 +199,13 @@ if (isset($_GET['ubah'])) {
                   <div class="col">
                     <div class="form-group">
                       <label for="about">Serial Number</label>
-                      <input required type="text" name="spek_serial_number" placeholder="Nomor Seri Alat" value="<?php echo $spek_serial_number;  ?>" class="form-control" />
+                      <input type="text" name="spek_serial_number" placeholder="Nomor Seri Alat" value="<?php echo $spek_serial_number;  ?>" class="form-control" />
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
                       <label for="time">Warna</label>
-                      <input required type="text" name="spek_warna" placeholder="Warna alat" value="<?php echo $spek_warna;  ?>" class="form-control" />
+                      <input type="text" name="spek_warna" placeholder="Warna alat" value="<?php echo $spek_warna;  ?>" class="form-control" />
                     </div>
                   </div>
                 </div>
@@ -213,13 +213,13 @@ if (isset($_GET['ubah'])) {
                   <div class="col">
                     <div class="form-group">
                       <label for="venue">Ukuran</label>
-                      <input required type="text" name="spek_ukuran" placeholder="Ukuran alat" value="<?php echo $spek_ukuran;  ?>" class="form-control" />
+                      <input type="text" name="spek_ukuran" placeholder="Ukuran alat" value="<?php echo $spek_ukuran;  ?>" class="form-control" />
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
                       <label for="price">Kondisi Alat</label>
-                      <input required type="text" name="kondisi_alat" placeholder="Kondisi Alat" value="<?php echo $kondisi_alat;  ?>" class="form-control" />
+                      <input type="text" name="kondisi_alat" placeholder="Kondisi Alat" value="<?php echo $kondisi_alat;  ?>" class="form-control" />
                     </div>
                   </div>
                 </div>
@@ -227,13 +227,13 @@ if (isset($_GET['ubah'])) {
                   <div class="col">
                     <div class="form-group">
                       <label for="price">Harga</label>
-                      <input required type="number" name="harga" placeholder="Harga Alat" value="<?php echo $harga;  ?>" class="form-control" />
+                      <input type="number" name="harga" placeholder="Harga Alat" value="<?php echo $harga;  ?>" class="form-control" />
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
                       <label for="status">Status Alat</label>
-                      <select required class="form-control" name="status_alat" id="status_alat">
+                      <select class="form-control" name="status_alat" id="status_alat">
                         <option <?php if ($status_alat == 'DIGUNAKAN') {
                                   echo "selected";
                                 } ?> value="DIGUNAKAN">DIGUNAKAN</option>
@@ -252,7 +252,7 @@ if (isset($_GET['ubah'])) {
                 </div>
                 <div class="form-group">
                   <label for="keterangan">Keterangan</label>
-                  <textarea required class="form-control" name="keterangan" rows="3"><?php echo $keterangan;  ?></textarea>
+                  <textarea class="form-control" name="keterangan" rows="3"><?php echo $keterangan;  ?></textarea>
                 </div>
                 <div class="form-group">
                   <label for="foto">Foto</label>
@@ -262,16 +262,16 @@ if (isset($_GET['ubah'])) {
                   <div class="col">
                     <div id="perbaikan_section" style="display: none;">
                       <label for="nama_vendor">Nama Vendor:</label>
-                      <input required class="form-control" type="text" name="nama_vendor">
+                      <input class="form-control" type="text" name="nama_vendor">
 
                       <label for="durasi">Durasi:</label>
-                      <input required class="form-control" type="text" name="durasi">
+                      <input class="form-control" type="text" name="durasi">
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="location">Lokasi</label>
-                  <input required type="text" name="lokasi" placeholder="Lokasi Alat" value="<?php echo $lokasi;  ?>" class="form-control" />
+                  <input type="text" name="lokasi" placeholder="Lokasi Alat" value="<?php echo $lokasi;  ?>" class="form-control" />
                 </div>
                 <div class="row">
                   <div class="col">

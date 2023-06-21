@@ -38,8 +38,8 @@ if (isset($_POST['aksi'])) {
         // echo "<br>Tambah Data";
     } else if ($_POST['aksi'] == "edit") {
 
-        echo "Edit Data Berhasil Dilakukan <a href='../views/index_alat.php'>[Home]</a>";
-        var_dump($_POST);
+        // echo "Edit Data Berhasil Dilakukan <a href='../views/index_alat.php'>[Home]</a>";
+        // var_dump($_POST);
 
         $id_alat = $_POST['id_alat'];
         $nomer_alat = $_POST['nomer_alat'];
@@ -53,11 +53,25 @@ if (isset($_POST['aksi'])) {
         $status_alat = $_POST['status_alat'];
         $lokasi = $_POST['lokasi'];
 
+        $queryShow = "SELECT * FROM alat WHERE id_alat = '$id_alat';";
+        $sqlShow = mysqli_query($mysqli, $queryShow);
+        $result = mysqli_fetch_assoc($sqlShow);
+
+        if($_FILES['foto']['name'] == ""){
+            $foto = $result['foto'];
+        } else {
+            $foto = $_FILES['foto']['name'];
+            unlink("../img/".$result['foto']);
+            move_uploaded_file($_FILES['foto']['tmp_name'],"../img/".$_FILES['foto']['name']);
+        }
+        
+
         $query = "UPDATE alat SET nomer_alat='$nomer_alat',spek_merk_type='$spek_merk_type',
         spek_serial_number='$spek_serial_number',spek_warna='$spek_warna',spek_ukuran='$spek_ukuran',
-        kondisi_alat='$kondisi_alat',harga='$harga',keterangan='$keterangan',status_alat='$status_alat',
+        kondisi_alat='$kondisi_alat',harga='$harga',keterangan='$keterangan', foto='$foto', status_alat='$status_alat',
         lokasi='$lokasi' WHERE id_alat='$id_alat';";
 
         $sql = mysqli_query($mysqli, $query);
+        header("location: ../views/index_alat.php");
     }
 }

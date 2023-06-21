@@ -8,6 +8,11 @@ if (!isset($_SESSION["username"])) {
 }
 
 $username = $_SESSION["username"];
+include '../../koneksi/koneksi.php';
+
+$query = "SELECT * FROM lap_kalibrasi;";
+$sql = mysqli_query($mysqli, $query);
+$no = 0;
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +147,53 @@ $username = $_SESSION["username"];
           </div>
 
           <div class="row">
-
+          <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>ID Laporan</th>
+                        <th>Nama Alat</th>
+                        <th>Tag Number</th>
+                        <th>No Sertifikat</th>
+                        <th>Interval</th>
+                        <th>Lembaga Kalibrasi</th>
+                        <th>Kalibrasi Internal</th>
+                        <th>Kalibrasi Eksternal</th>
+                        <th>Range Kapasitas</th>
+                        <th>Faktor Koreksi</th>
+                        <th>Signifikan Ya</th>
+                        <th>Signifikan Tidak</th>
+                        <th>Aksi</th>
+                      </tr>
+                      <?php
+                      while ($result = mysqli_fetch_assoc($sql)) {
+                      ?>
+                      <tr>
+                        <td><?php echo ++$no; ?></td>
+                        <td><?php echo $result['nama_alat']; ?></td>
+                        <td><?php echo $result['tag_number']; ?></td>
+                        <td><?php echo $result['no_sertifikat']; ?></td>
+                        <td><?php echo $result['interval_kalibrasi']; ?></td>
+                        <td><?php echo $result['lembaga_kalibrasi']; ?></td>
+                        <td><?php echo $result['jns_kalibrasi_int']; ?></td>
+                        <td><?php echo $result['jns_kalibrasi_eks']; ?></td>
+                        <td><?php echo $result['range_kapasitas']; ?></td>
+                        <td><?php echo $result['faktor_koreksi']; ?></td>
+                        <td><?php echo $result['signifikan_ya']; ?></td>
+                        <td><?php echo $result['signifikan_tidak']; ?></td>
+                        <td>
+                          <a class="btn btn-success btn-block" href="../views/alat/kelola_data_lap_kalibrasi.php?ubah=<?php echo $result['id_lap_kalibrasi']; ?> ">Edit</a>
+                          <a class="btn btn-warning btn-block mt-4" href="../views/alat/cetak_data_lap_kalibrasi.php?ubah=<?php echo $result['id_lap_kalibrasi']; ?> ">Cetak</a>
+                        </td>
+                      </tr>
+                      <?php
+                      }
+                      ?>
+                    </thead>
+                  </table>
+                </div>
+              </div>
           </div>
         </div>
         <!-- /.container-fluid -->

@@ -8,6 +8,11 @@ if (!isset($_SESSION["username"])) {
 }
 
 $username = $_SESSION["username"];
+include '../../koneksi/koneksi.php';
+
+$query = "SELECT * FROM kalibrasi INNER JOIN alat ON kalibrasi.id_alat = alat.id_alat";
+$sql = mysqli_query($mysqli, $query);
+$no = 0;
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +147,44 @@ $username = $_SESSION["username"];
           </div>
 
           <div class="row">
-
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>ID Kalibrasi</th>
+                        <th>No Kalibrasi</th>
+                        <th>ID Alat</th>
+                        <th>Tanggal Kalibrasi</th>
+                        <th>Petugas Penerima</th>
+                        <th>Petugas Menyerahkan</th>
+                        <th>Tanggal Berakhirnya Masa Kalibrasi</th>
+                        <th>Keterangan Kalibrasi</th>
+                        <th>Aksi</th>
+                      </tr>
+                      <?php
+                      while ($result = mysqli_fetch_assoc($sql)) {
+                      ?>
+                      <tr>
+                        <td><?php echo ++$no; ?></td>
+                        <td><?php echo $result['no_kalibrasi']; ?></td>
+                        <td><?php echo $result['id_alat']; ?></td>
+                        <td><?php echo $result['tanggal_kalibrasi']; ?></td>
+                        <td><?php echo $result['petugas_penerima']; ?></td>
+                        <td><?php echo $result['petugas_menyerahkan']; ?></td>
+                        <td><?php echo $result['thl_berakhirnya_masa_kalibrasi']; ?></td>
+                        <td><?php echo $result['keterangan_kalibrasi']; ?></td>
+                        <td>
+                          <a class="btn btn-success" href="../views/alat/kelola_data_kalibrasi.php?ubah=<?php echo $result['id_alat']; ?> ">Edit</a>
+                        </td>
+                      </tr>
+                      <?php
+                      }
+                      ?>
+                    </thead>
+                  </table>
+                </div>
+              </div>
           </div>
         </div>
         <!-- /.container-fluid -->

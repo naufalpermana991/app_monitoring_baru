@@ -8,6 +8,16 @@ if (!isset($_SESSION["username"])) {
 }
 
 $username = $_SESSION["username"];
+
+include '../../koneksi/koneksi.php';
+
+$query = "SELECT kalibrasi.id_alat, lap_kalibrasi.nama_alat, kalibrasi.no_kalibrasi, kalibrasi.tanggal_kalibrasi, kalibrasi.thl_berakhirnya_masa_kalibrasi
+FROM alat 
+INNER JOIN lap_kalibrasi  ON lap_kalibrasi.id_lap_kalibrasi = alat.id_alat
+INNER JOIN kalibrasi  ON kalibrasi.id_alat = alat.id_alat";
+
+$sql = mysqli_query($mysqli, $query);
+$no = 0;
 ?>
 
 <!DOCTYPE html>
@@ -136,7 +146,7 @@ $username = $_SESSION["username"];
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Monitoring Kalibrasi</h1>
-            <a href="#" class="btn btn-sm btn-success shadow-sn">
+            <a href="#" class="btn btn-sm btn-primary shadow-sn">
               <i class="fas fa-plus fa-sm"></i> Tambah Data
             </a>
           </div>
@@ -147,14 +157,27 @@ $username = $_SESSION["username"];
                 <table class="table table-bordered" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>ID</th>
                       <th>Nama Alat</th>
                       <th>No Kalibrasi</th>
                       <th>Tgl Kalibrasi</th>
-                      <th>Tgl Masa Berakhir Kalibrasi</th>
-                      <th>Lokasi</th>
+                      <th>Tgl Masa Berakhir Kalibrasi</th>                   
                       <th>Aksi</th>
                     </tr>
+                    <?php
+                      while ($result = mysqli_fetch_assoc($sql)) {
+                      ?>
+                      <tr>
+                        <td><?php echo $result['nama_alat']; ?></td>
+                        <td><?php echo $result['no_kalibrasi']; ?></td>
+                        <td><?php echo $result['tanggal_kalibrasi']; ?></td>
+                        <td><?php echo $result['thl_berakhirnya_masa_kalibrasi']; ?></td>
+                        <td>
+                          <a class="btn btn-success" href="../views/alat/kelola_data_mon_kalibrasi.php?ubah=<?php echo $result['id_alat']; ?> ">Edit</a>
+                        </td>
+                      </tr>
+                      <?php
+                      }
+                      ?>
                   </thead>
                 </table>
               </div>
