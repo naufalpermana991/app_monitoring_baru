@@ -35,9 +35,15 @@ $no = 0;
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
+
 
   <!-- Custom styles for this template-->
   <link href="../css/sb-admin-2.min.css" rel="stylesheet" />
+
 </head>
 
 <body id="page-top">
@@ -141,19 +147,20 @@ $no = 0;
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Laporan Kalibrasi</h1>
-            <a href="#" class="btn btn-sm btn-primary shadow-sn">
+            <a href="../views/lap_kalibrasi/kelola_lap_kalibrasi.php" class="btn btn-sm btn-primary shadow-sn">
               <i class="fas fa-plus fa-sm"></i> Tambah Data Laporan
             </a>
           </div>
 
           <div class="row">
-          <div class="card-body">
+            <div class="container-fluid">
+              <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table table-bordered" width="100%" cellspacing="0">
+                  <table id="tabel-data" class="table table-bordered">
                     <thead>
                       <tr>
                         <th>ID Laporan</th>
-                        <th>Nama Alat</th>
+                        <th>ID Kalibrasi</th>
                         <th>Tag Number</th>
                         <th>No Sertifikat</th>
                         <th>Interval</th>
@@ -166,34 +173,39 @@ $no = 0;
                         <th>Signifikan Tidak</th>
                         <th>Aksi</th>
                       </tr>
+                    </thead>
+
+                    <tbody>
                       <?php
                       while ($result = mysqli_fetch_assoc($sql)) {
                       ?>
-                      <tr>
-                        <td><?php echo ++$no; ?></td>
-                        <td><?php echo $result['nama_alat']; ?></td>
-                        <td><?php echo $result['tag_number']; ?></td>
-                        <td><?php echo $result['no_sertifikat']; ?></td>
-                        <td><?php echo $result['interval_kalibrasi']; ?></td>
-                        <td><?php echo $result['lembaga_kalibrasi']; ?></td>
-                        <td><?php echo $result['jns_kalibrasi_int']; ?></td>
-                        <td><?php echo $result['jns_kalibrasi_eks']; ?></td>
-                        <td><?php echo $result['range_kapasitas']; ?></td>
-                        <td><?php echo $result['faktor_koreksi']; ?></td>
-                        <td><?php echo $result['signifikan_ya']; ?></td>
-                        <td><?php echo $result['signifikan_tidak']; ?></td>
-                        <td>
-                          <a class="btn btn-success btn-block" href="../views/alat/kelola_data_lap_kalibrasi.php?ubah=<?php echo $result['id_lap_kalibrasi']; ?> ">Edit</a>
-                          <a class="btn btn-warning btn-block mt-4" href="../views/alat/cetak_data_lap_kalibrasi.php?ubah=<?php echo $result['id_lap_kalibrasi']; ?> ">Cetak</a>
-                        </td>
-                      </tr>
+                        <tr>
+                          <td><?php echo ++$no; ?></td>
+                          <td><?php echo $result['id_kalibrasi']; ?></td>
+                          <td><?php echo $result['tag_number']; ?></td>
+                          <td><?php echo $result['no_sertifikat']; ?></td>
+                          <td><?php echo $result['interval_kalibrasi']; ?></td>
+                          <td><?php echo $result['lembaga_kalibrasi']; ?></td>
+                          <td><?php echo $result['jns_kalibrasi_int']; ?></td>
+                          <td><?php echo $result['jns_kalibrasi_eks']; ?></td>
+                          <td><?php echo $result['range_kapasitas']; ?></td>
+                          <td><?php echo $result['faktor_koreksi']; ?></td>
+                          <td><?php echo $result['signifikan_ya']; ?></td>
+                          <td><?php echo $result['signifikan_tidak']; ?></td>
+                          <td>
+                            <a class="btn btn-success btn-block" href="../views/lap_kalibrasi/kelola_lap_kalibrasi.php?ubah=<?php echo $result['id_lap_kalibrasi']; ?> ">Edit</a>
+                            <a class="btn btn-warning btn-block mt-4" href="../views/lap_kalibrasi/cetak_lap_kalibrasi.php?cetak=<?php echo $result['id_lap_kalibrasi']; ?>">Cetak</a>
+                          </td>
+                        </tr>
                       <?php
                       }
                       ?>
-                    </thead>
+                    </tbody>
+
                   </table>
                 </div>
               </div>
+            </div>
           </div>
         </div>
         <!-- /.container-fluid -->
@@ -249,6 +261,17 @@ $no = 0;
   <!-- Page level custom scripts -->
   <script src="../js/demo/chart-area-demo.js"></script>
   <script src="../js/demo/chart-pie-demo.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#tabel-data').DataTable();
+    });
+  </script>
 </body>
 
 </html>

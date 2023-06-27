@@ -37,8 +37,11 @@ $no = 0;
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
+
   <!-- Custom styles for this template-->
-  <link href="../css/sb-admin-2.css" rel="stylesheet" />
+  <link href="../css/sb-admin-2.min.css" rel="stylesheet" />
 </head>
 
 <body id="page-top">
@@ -142,58 +145,75 @@ $no = 0;
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Data Alat</h1>
-            <a href="../views/alat/kelola_data_alat.php" class="btn btn-sm btn-primary shadow-sn">
-              <i class="fas fa-plus fa-sm"></i> Tambah Data Alat
-            </a>
+            <div class="row">
+              <div class="col">
+                <a href="../views/update_lokasi/index_lokasi_alat.php" class="btn btn-sm btn-outline-primary shadow-sn">
+                  <i class="fas fa-map fa-sm"></i> Update Data Lokasi
+                </a>
+              </div>
+              <div class="col">
+                <a href="../views/alat/kelola_data_alat.php" class="btn btn-sm btn-primary shadow-sn">
+                  <i class="fas fa-plus fa-sm"></i> Tambah Data Alat
+                </a>
+              </div>
+            </div>
           </div>
 
           <div class="row">
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Nomer Alat</th>
-                      <th>Spesifikasi</th>
-                      <th>Serial Number</th>
-                      <th>Warna</th>
-                      <th>Ukuran</th>
-                      <th>Kondisi Alat</th>
-                      <th>Harga</th>
-                      <th>Keterangan</th>
-                      <th>Foto</th>
-                      <th>Status Alat</th>
-                      <th>Lokasi</th>
-                      <th>Aksi</th>
-                    </tr>
-                    <?php
-                    while ($result = mysqli_fetch_assoc($sql)) {
-                    ?>
+            <div class="container-fluid">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table id="tabel-data" class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
                       <tr>
-                        <td><?php echo ++$no; ?></td>
-                        <td><?php echo $result['nomer_alat']; ?></td>
-                        <td><?php echo $result['spek_merk_type']; ?></td>
-                        <td><?php echo $result['spek_serial_number']; ?></td>
-                        <td><?php echo $result['spek_warna']; ?></td>
-                        <td><?php echo $result['spek_ukuran']; ?></td>
-                        <td><?php echo $result['kondisi_alat']; ?></td>
-                        <td><?php echo $result['harga']; ?></td>
-                        <td><?php echo $result['keterangan']; ?></td>
-                        <td>
-                          <img src="../img/<?php echo $result['foto']; ?>" style="width:100px;" alt="">
-                        </td>
-                        <td><?php echo $result['status_alat']; ?></td>
-                        <td><?php echo $result['lokasi']; ?></td>
-                        <td>
-                          <a class="btn btn-success" href="../views/alat/kelola_data_alat.php?ubah=<?php echo $result['id_alat']; ?> ">Edit</a>
-                        </td>
+                        <th>ID</th>
+                        <th>Nomer Alat</th>
+                        <th>Nama Alat</th>
+                        <th>Spesifikasi</th>
+                        <th>Serial Number</th>
+                        <th>Warna</th>
+                        <th>Ukuran</th>
+                        <th>Kondisi Alat</th>
+                        <th>Harga</th>
+                        <th>Keterangan</th>
+                        <th>Foto</th>
+                        <th>Status Alat</th>
+                        <th>Lokasi</th>
+                        <th>Aksi</th>
                       </tr>
-                    <?php
-                    }
-                    ?>
-                  </thead>
-                </table>
+                    </thead>
+
+                    <tbody>
+                      <?php
+                      while ($result = mysqli_fetch_assoc($sql)) {
+                      ?>
+                        <tr>
+                          <td><?php echo ++$no; ?></td>
+                          <td><?php echo $result['nomer_alat']; ?></td>
+                          <td><?php echo $result['nama_alat']; ?></td>
+                          <td><?php echo $result['spek_merk_type']; ?></td>
+                          <td><?php echo $result['spek_serial_number']; ?></td>
+                          <td><?php echo $result['spek_warna']; ?></td>
+                          <td><?php echo $result['spek_ukuran']; ?></td>
+                          <td><?php echo $result['kondisi_alat']; ?></td>
+                          <td><?php echo $result['harga']; ?></td>
+                          <td><?php echo $result['keterangan']; ?></td>
+                          <td>
+                            <img src="../img/<?php echo $result['foto']; ?>" style="width:100px;" alt="">
+                          </td>
+                          <td><?php echo $result['status_alat']; ?></td>
+                          <td><?php echo $result['lokasi']; ?></td>
+                          <td>
+                            <a class="btn btn-success" href="../views/alat/kelola_data_alat.php?ubah=<?php echo $result['id_alat']; ?> ">Edit</a>
+                          </td>
+                        </tr>
+                      <?php
+                      }
+                      ?>
+                    </tbody>
+
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -262,6 +282,16 @@ $no = 0;
   <!-- Page level custom scripts -->
   <script src="../js/demo/chart-area-demo.js"></script>
   <script src="../js/demo/chart-pie-demo.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#tabel-data').DataTable();
+    });
+  </script>
 </body>
 
 </html>

@@ -6,46 +6,40 @@ if (!isset($_SESSION["username"])) {
   header("Location: index.php");
   exit;
 }
-
 $username = $_SESSION["username"];
-
-global $no_kalibrasi;
-global $id_alat;
-global $tanggal_kalibrasi;
-global $petugas_penerima;
-global $petugas_menyerahkan;
-global $thl_berakhirnya_masa_kalibrasi;
-global $keterangan_kalibrasi;
-
-if (isset($_POST['tambah'])) {
-  $no_kalibrasi = $_POST["no_kalibrasi"];
-  $id_alat = intval($_POST['id_alat']);
-  $tanggal_kalibrasi = date('Y-m-d', @strtotime($_POST['tanggal_kalibrasi']));
-  $petugas_penerima = $_POST['petugas_penerima'];
-  $petugas_menyerahkan = $_POST['petugas_menyerahkan'];
-  $thl_berakhirnya_masa_kalibrasi = date('Y-m-d', @strtotime($_POST['thl_berakhirnya_masa_kalibrasi']));
-  $keterangan_kalibrasi = $_POST['keterangan_kalibrasi'];
-}
-
-// Koneksi ke database
-include '../koneksi.php';
-// Cek koneksi
-if ($mysqli->connect_error) {
-  throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
-}
-
-// Query INSERT untuk menambahkan data baru ke tabel kalibrasi
-$sql = "INSERT INTO kalibrasi (id_kalibrasi, no_kalibrasi, id_alat, tanggal_kalibrasi, petugas_penerima, petugas_menyerahkan, thl_berakhirnya_masa_kalibrasi, keterangan_kalibrasi)
-        SELECT kalibrasi.id_kalibrasi, kalibrasi.no_kalibrasi, alat.id_alat, kalibrasi.tanggal_kalibrasi, kalibrasi.petugas_penerima, kalibrasi.petugas_menyerahkan, kalibrasi.thl_berakhirnya_masa_kalibrasi, kalibrasi.keterangan_kalibrasi
-        FROM kalibrasi
-        JOIN alat ON kalibrasi.id_alat = alat.id_alat";
-
-
-// Menutup koneksi ke database
-$mysqli->close();
 ?>
 
 <!DOCTYPE html>
+<?php
+include '../../../koneksi/koneksi.php';
+
+$id_kalibrasi = '';
+$no_kalibrasi = '';
+$nama_alat = '';
+$tanggal_kalibrasi = '';
+$petugas_penerima = '';
+$petugas_menyerahkan = '';
+$thl_berakhirnya_masa_kalibrasi = '';
+$keterangan_kalibrasi = '';
+
+if (isset($_GET['ubah'])) {
+  $id_kalibrasi = $_GET['ubah'];
+
+  $query = "SELECT kalibrasi.id_kalibrasi, kalibrasi.no_kalibrasi, alat.nama_alat, kalibrasi.tanggal_kalibrasi, kalibrasi.petugas_penerima, kalibrasi.petugas_menyerahkan, kalibrasi.thl_berakhirnya_masa_kalibrasi, kalibrasi.keterangan_kalibrasi FROM kalibrasi INNER JOIN alat ON alat.id_alat = kalibrasi.id_alat;";
+  $sql = mysqli_query($mysqli, $query);
+
+  $result = mysqli_fetch_assoc($sql);
+
+  $no_kalibrasi = $result['no_kalibrasi'];
+  $nama_alat = $result['nama_alat'];
+  $tanggal_kalibrasi = $result['tanggal_kalibrasi'];
+  $petugas_penerima = $result['petugas_penerima'];
+  $petugas_menyerahkan = $result['petugas_menyerahkan'];
+  $thl_berakhirnya_masa_kalibrasi = $result['thl_berakhirnya_masa_kalibrasi'];
+  $keterangan_kalibrasi = $result['keterangan_kalibrasi'];
+}
+
+?>
 <html lang="en">
 
 <head>
@@ -55,10 +49,11 @@ $mysqli->close();
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>Tambah Data Kalibrasi</title>
+  <title>Kelola Data Kalibrasi</title>
 
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+  <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -67,7 +62,10 @@ $mysqli->close();
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet" />
+  <link href="../../css/sb-admin-2.min.css" rel="stylesheet" />
+
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 </head>
 
 <body id="page-top">
@@ -105,10 +103,10 @@ $mysqli->close();
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="index_alat.php">Data Alat</a>
-            <a class="collapse-item" href="index_kalibrasi.php">Data Kalibrasi</a>
-            <a class="collapse-item" href="index_lap_kalibrasi.php">Laporan Kalibrasi</a>
-            <a class="collapse-item" href="index_mon_kalibrasi.php">Monitoring Kalibrasi</a>
+            <a class="collapse-item" href="../index_alat.php">Data Alat</a>
+            <a class="collapse-item" href="../index_kalibrasi.php">Data Kalibrasi</a>
+            <a class="collapse-item" href="../index_lap_kalibrasi.php">Laporan Kalibrasi</a>
+            <a class="collapse-item" href="../index_mon_kalibrasi.php">Monitoring Kalibrasi</a>
           </div>
         </div>
       </li>
@@ -153,7 +151,7 @@ $mysqli->close();
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $username; ?></span>
-                <img class="img-profile rounded-circle" src="img/undraw_profile.svg" />
+                <img class="img-profile rounded-circle" src="../../img/undraw_profile.svg" />
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -171,41 +169,84 @@ $mysqli->close();
         <div class="container-fluid">
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Tambah Data Kalibrasi</h1>
+            <h1 class="h3 mb-0 text-gray-800">Kelola Data Kalibrasi</h1>
           </div>
 
           <div class="card shadow">
             <div class="div card-body">
-              <form action="tambah_data_kalibrasi.php" method="post">
-                <div class="form-group">
-                  <label for="title">Nomer Kalibrasi</label>
-                  <input type="text" name="no_kalibrasi" placeholder="Nomor Kalibrasi" class="form-control" />
+              <form method="POST" action="../../controller/proses_data_kalibrasi.php">
+                <input type="hidden" value="<?php echo $id_kalibrasi; ?>" name="id_kalibrasi">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="no_kalibrasi">Nomer Kalibrasi</label>
+                      <input type="text" name="no_kalibrasi" placeholder="Nomor Kalibrasi" value="<?php echo $no_kalibrasi; ?>" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="nama_alat">Nama Alat</label>
+                      <select class="form-control select2" name="nama_alat">
+                        <option value="">- Pilih Alat -</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="tanggal_kalibrasi">Tanggal Kalibrasi</label>
+                      <input type="date" name="tanggal_kalibrasi" value="<?php echo $tanggal_kalibrasi; ?>" placeholder="Tanggal Kalibrasi" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="petugas_penerima">Petugas Penerima</label>
+                      <input type="text" name="petugas_penerima" value="<?php echo $petugas_penerima; ?>" placeholder="Petugas Penerima" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="petugas_menyerahkan">Petugas Menyerahkan</label>
+                      <input type="text" name="petugas_menyerahkan" value="<?php echo $petugas_menyerahkan; ?>" placeholder="Petugas Menyerahkan" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="thl_berakhirnya_masa_kalibrasi">Tanggal Akhir Kalibrasi</label>
+                      <input type="date" name="thl_berakhirnya_masa_kalibrasi" value="<?php echo $thl_berakhirnya_masa_kalibrasi; ?>" placeholder="Tanggal Akhir Kalibrasi" class="form-control" />
+                    </div>
+                  </div>
                 </div>
                 <div class="form-group">
-                  <label for="title">Kode Alat</label>
-                  <input type="number" name="id_alat" placeholder="Kode Alat" class="form-control" />
+                  <label for="keterangan_kalibrasi">Keterangan Kalibrasi</label>
+                  <input type="text" name="keterangan_kalibrasi" value="<?php echo $keterangan_kalibrasi; ?>" placeholder="Keterangan Kalibrasi" class="form-control" />
                 </div>
-                <div class="form-group">
-                  <label for="status">Tanggal Kalibrasi</label>
-                  <input type="date" name="tanggal_kalibrasi" placeholder="Tanggal Kalibrasi" class="form-control" />
+
+
+                <div class="row">
+                  <div class="col">
+                    <?php
+                    if (isset($_GET['ubah'])) {
+                    ?>
+                      <button type="submit" name="aksi" value="edit" class="btn btn-primary btn-block">
+                        Simpan Perubahan
+                      </button>
+                    <?php
+                    } else {
+                    ?>
+                      <button type="submit" name="aksi" value="add" class="btn btn-primary btn-block">Tambahkan</button>
+                    <?php
+                    }
+                    ?>
+                  </div>
+                  <div class="col">
+                    <a href="../index_alat.php" type="button" class="btn btn-danger btn-block">Batal</a>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="time">Petugas Penerima</label>
-                  <input type="text" name="petugas_penerima" placeholder="Petugas Penerima" class="form-control" />
-                </div>
-                <div class="form-group">
-                  <label for="venue">Petugas Menyerahkan</label>
-                  <input type="text" name="petugas_menyerahkan" placeholder="Petugas Menyerahkan" class="form-control" />
-                </div>
-                <div class="form-group">
-                  <label for="status">Tanggal Akhir Kalibrasi</label>
-                  <input type="date" name="thl_berakhirnya_masa_kalibrasi" placeholder="Tanggal Akhir Kalibrasi" class="form-control" />
-                </div>
-                <div class="form-group">
-                  <label for="price">Keterangan Kalibrasi</label>
-                  <input type="text" name="keterangan_kalibrasi" placeholder="Keterangan Kalibrasi" class="form-control" />
-                </div>
-                <input type="submit" name="tambah" class="btn btn-primary btn-block" value="Simpan Data" />
               </form>
             </div>
           </div>
@@ -257,21 +298,26 @@ $mysqli->close();
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../vendor/jquery/jquery.min.js"></script>
+  <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+  <script src="../../js/sb-admin-2.min.js"></script>
 
   <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
+  <script src="../../vendor/chart.js/Chart.min.js"></script>
 
   <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
+  <script src="../../js/demo/chart-area-demo.js"></script>
+  <script src="../../js/demo/chart-pie-demo.js"></script>
+
+  <!--Select2 scripts-->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
 </body>
 
 </html>

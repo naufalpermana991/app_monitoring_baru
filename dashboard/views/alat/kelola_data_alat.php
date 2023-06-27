@@ -17,6 +17,7 @@ include '../../../koneksi/koneksi.php';
 
 $id_alat = '';
 $nomer_alat = '';
+$nama_alat = '';
 $spek_merk_type = '';
 $spek_serial_number = '';
 $spek_warna = '';
@@ -26,16 +27,24 @@ $harga = '';
 $keterangan = '';
 $status_alat = '';
 $lokasi = '';
+$id_perbaikan = '';
+
 
 if (isset($_GET['ubah'])) {
   $id_alat = $_GET['ubah'];
+  $id_perbaikan = $_GET['ubah'];
 
-  $query = "SELECT * FROM alat WHERE id_alat = '$id_alat';";
-  $sql = mysqli_query($mysqli, $query);
+  $query1 = "SELECT * FROM alat WHERE id_alat = '$id_alat';";
+
+
+  $sql = mysqli_query($mysqli, $query1);
+
+
 
   $result = mysqli_fetch_assoc($sql);
 
   $nomer_alat = $result['nomer_alat'];
+  $nama_alat = $result['nama_alat'];
   $spek_merk_type = $result['spek_merk_type'];
   $spek_serial_number = $result['spek_serial_number'];
   $spek_warna = $result['spek_warna'];
@@ -45,6 +54,7 @@ if (isset($_GET['ubah'])) {
   $keterangan = $result['keterangan'];
   $status_alat = $result['status_alat'];
   $lokasi = $result['lokasi'];
+
 
   // var_dump($result);
 
@@ -190,6 +200,12 @@ if (isset($_GET['ubah'])) {
                   </div>
                   <div class="col">
                     <div class="form-group">
+                      <label for="nama_alat">Nama Alat</label>
+                      <input type="text" name="nama_alat" placeholder="Nama Alat" value="<?php echo $nama_alat;  ?>" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
                       <label for="status">Spesifikasi</label>
                       <input type="text" name="spek_merk_type" placeholder="Spek, Merk, dan Type Alat" value="<?php echo $spek_merk_type;  ?>" class="form-control" />
                     </div>
@@ -258,17 +274,22 @@ if (isset($_GET['ubah'])) {
                   <label for="foto">Foto</label>
                   <input type="file" name="foto" id="foto" class="form-control form-control-file" accept="image/*">
                 </div>
+
                 <div class="row">
                   <div class="col">
                     <div id="perbaikan_section" style="display: none;">
-                      <label for="nama_vendor">Nama Vendor:</label>
-                      <input class="form-control" type="text" name="nama_vendor">
-
-                      <label for="durasi">Durasi:</label>
-                      <input class="form-control" type="text" name="durasi">
+                      <div class="form-group">
+                        <label for="nama_vendor">Nama Vendor:</label>
+                        <input class="form-control" type="text" value="<?php echo $nama_vendor;  ?>" name="nama_vendor">
+                      </div>
+                      <div class="form-group">
+                        <label for="tgl_perbaikan">Tanggal Perbaikan:</label>
+                        <input class="form-control" type="date" value="<?php echo $tgl_perbaikan;  ?>" name="tgl_perbaikan">
+                      </div>
                     </div>
                   </div>
                 </div>
+
                 <div class="form-group">
                   <label for="location">Lokasi</label>
                   <input type="text" name="lokasi" placeholder="Lokasi Alat" value="<?php echo $lokasi;  ?>" class="form-control" />

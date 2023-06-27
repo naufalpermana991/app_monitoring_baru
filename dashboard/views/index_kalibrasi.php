@@ -10,7 +10,7 @@ if (!isset($_SESSION["username"])) {
 $username = $_SESSION["username"];
 include '../../koneksi/koneksi.php';
 
-$query = "SELECT * FROM kalibrasi INNER JOIN alat ON kalibrasi.id_alat = alat.id_alat";
+$query = "SELECT kalibrasi.id_kalibrasi, kalibrasi.no_kalibrasi, alat.nama_alat, kalibrasi.tanggal_kalibrasi, kalibrasi.petugas_penerima, kalibrasi.petugas_menyerahkan, kalibrasi.thl_berakhirnya_masa_kalibrasi, kalibrasi.keterangan_kalibrasi FROM kalibrasi INNER JOIN alat ON alat.id_alat = kalibrasi.id_alat;";
 $sql = mysqli_query($mysqli, $query);
 $no = 0;
 ?>
@@ -38,6 +38,9 @@ $no = 0;
 
   <!-- Custom styles for this template-->
   <link href="../css/sb-admin-2.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
 </head>
 
 <body id="page-top">
@@ -141,50 +144,53 @@ $no = 0;
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Informasi Kalibrasi</h1>
-            <a href="tambah_data_kalibrasi.php" class="btn btn-sm btn-primary shadow-sn">
+            <a href="../views/kalibrasi/kelola_data_kalibrasi.php" class="btn btn-sm btn-primary shadow-sn">
               <i class="fas fa-plus fa-sm"></i> Tambah Data Kalibrasi
             </a>
           </div>
 
           <div class="row">
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-bordered" width="100%" cellspacing="0">
-                    <thead>
-                      <tr>
-                        <th>ID Kalibrasi</th>
-                        <th>No Kalibrasi</th>
-                        <th>ID Alat</th>
-                        <th>Tanggal Kalibrasi</th>
-                        <th>Petugas Penerima</th>
-                        <th>Petugas Menyerahkan</th>
-                        <th>Tanggal Berakhirnya Masa Kalibrasi</th>
-                        <th>Keterangan Kalibrasi</th>
-                        <th>Aksi</th>
-                      </tr>
-                      <?php
-                      while ($result = mysqli_fetch_assoc($sql)) {
-                      ?>
-                      <tr>
-                        <td><?php echo ++$no; ?></td>
-                        <td><?php echo $result['no_kalibrasi']; ?></td>
-                        <td><?php echo $result['id_alat']; ?></td>
-                        <td><?php echo $result['tanggal_kalibrasi']; ?></td>
-                        <td><?php echo $result['petugas_penerima']; ?></td>
-                        <td><?php echo $result['petugas_menyerahkan']; ?></td>
-                        <td><?php echo $result['thl_berakhirnya_masa_kalibrasi']; ?></td>
-                        <td><?php echo $result['keterangan_kalibrasi']; ?></td>
-                        <td>
-                          <a class="btn btn-success" href="../views/alat/kelola_data_kalibrasi.php?ubah=<?php echo $result['id_alat']; ?> ">Edit</a>
-                        </td>
-                      </tr>
-                      <?php
-                      }
-                      ?>
-                    </thead>
-                  </table>
-                </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="tabel-data" class="table table-bordered" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>ID Kalibrasi</th>
+                      <th>No Kalibrasi</th>
+                      <th>Nama Alat</th>
+                      <th>Tanggal Kalibrasi</th>
+                      <th>Petugas Penerima</th>
+                      <th>Petugas Menyerahkan</th>
+                      <th>Tanggal Berakhirnya Masa Kalibrasi</th>
+                      <th>Keterangan Kalibrasi</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+
+                  </tbody>
+                  <?php
+                  while ($result = mysqli_fetch_assoc($sql)) {
+                  ?>
+                    <tr>
+                      <td><?php echo ++$no; ?></td>
+                      <td><?php echo $result['no_kalibrasi']; ?></td>
+                      <td><?php echo $result['nama_alat']; ?></td>
+                      <td><?php echo $result['tanggal_kalibrasi']; ?></td>
+                      <td><?php echo $result['petugas_penerima']; ?></td>
+                      <td><?php echo $result['petugas_menyerahkan']; ?></td>
+                      <td><?php echo $result['thl_berakhirnya_masa_kalibrasi']; ?></td>
+                      <td><?php echo $result['keterangan_kalibrasi']; ?></td>
+                      <td>
+                        <a class="btn btn-success" href="../views/kalibrasi/kelola_data_kalibrasi.php?ubah=<?php echo $result['id_kalibrasi']; ?> ">Edit</a>
+                      </td>
+                    </tr>
+                  <?php
+                  }
+                  ?>
+                  </tbody>
+                </table>
               </div>
+            </div>
           </div>
         </div>
         <!-- /.container-fluid -->
@@ -240,6 +246,16 @@ $no = 0;
   <!-- Page level custom scripts -->
   <script src="../js/demo/chart-area-demo.js"></script>
   <script src="../js/demo/chart-pie-demo.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#tabel-data').DataTable();
+    });
+  </script>
 </body>
 
 </html>

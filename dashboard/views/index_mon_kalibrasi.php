@@ -11,7 +11,7 @@ $username = $_SESSION["username"];
 
 include '../../koneksi/koneksi.php';
 
-$query = "SELECT kalibrasi.id_alat, lap_kalibrasi.nama_alat, kalibrasi.no_kalibrasi, kalibrasi.tanggal_kalibrasi, kalibrasi.thl_berakhirnya_masa_kalibrasi
+$query = "SELECT kalibrasi.id_alat, alat.nama_alat, kalibrasi.no_kalibrasi, kalibrasi.tanggal_kalibrasi, kalibrasi.thl_berakhirnya_masa_kalibrasi
 FROM alat 
 INNER JOIN lap_kalibrasi  ON lap_kalibrasi.id_lap_kalibrasi = alat.id_alat
 INNER JOIN kalibrasi  ON kalibrasi.id_alat = alat.id_alat";
@@ -43,6 +43,9 @@ $no = 0;
 
   <!-- Custom styles for this template-->
   <link href="../css/sb-admin-2.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
 </head>
 
 <body id="page-top">
@@ -146,7 +149,7 @@ $no = 0;
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Monitoring Kalibrasi</h1>
-            <a href="#" class="btn btn-sm btn-primary shadow-sn">
+            <a href="../views/mon_kalibrasi/kelola_mon_kalibrasi.php" class="btn btn-sm btn-primary shadow-sn">
               <i class="fas fa-plus fa-sm"></i> Tambah Data
             </a>
           </div>
@@ -154,31 +157,33 @@ $no = 0;
           <div class="row">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
+                <table id="tabel-data" class="table table-bordered" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Nama Alat</th>
                       <th>No Kalibrasi</th>
                       <th>Tgl Kalibrasi</th>
-                      <th>Tgl Masa Berakhir Kalibrasi</th>                   
+                      <th>Tgl Masa Berakhir Kalibrasi</th>
                       <th>Aksi</th>
                     </tr>
+                  </thead>
+                  <tbody>
                     <?php
-                      while ($result = mysqli_fetch_assoc($sql)) {
-                      ?>
+                    while ($result = mysqli_fetch_assoc($sql)) {
+                    ?>
                       <tr>
                         <td><?php echo $result['nama_alat']; ?></td>
                         <td><?php echo $result['no_kalibrasi']; ?></td>
                         <td><?php echo $result['tanggal_kalibrasi']; ?></td>
                         <td><?php echo $result['thl_berakhirnya_masa_kalibrasi']; ?></td>
                         <td>
-                          <a class="btn btn-success" href="../views/alat/kelola_data_mon_kalibrasi.php?ubah=<?php echo $result['id_alat']; ?> ">Edit</a>
+                          <a class="btn btn-success" href="../views/mon_kalibrasi/kelola_mon_kalibrasi.php?ubah=<?php echo $result['id_alat']; ?> ">Edit</a>
                         </td>
                       </tr>
-                      <?php
-                      }
-                      ?>
-                  </thead>
+                    <?php
+                    }
+                    ?>
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -246,6 +251,15 @@ $no = 0;
   <!-- Page level custom scripts -->
   <script src="../js/demo/chart-area-demo.js"></script>
   <script src="../js/demo/chart-pie-demo.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#tabel-data').DataTable();
+    });
+  </script>
 </body>
 
 </html>
